@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+
+<project name="mandelbrot" default="build">
+
+  <!-- source directories -->
+  <property name="dir.src"      location="src" />
+  <property name="dir.src.test" location="test" />
+  <property name="dir.lib"      location="lib" />
+  <property name="dir.lib.test" location="lib/test" />
+  <property name="dir.doc.src"  location="doc" />
+  <property name="dir.target"   location="target" />
+
+  <!-- dist directories -->
+  <property name="dir.dist"     location="${dir.target}/dist" />
+  <property name="dir.doc"      location="${dir.dist}/doc" />
+  <property name="dir.doc.api"  location="${dir.dist}/doc/api" />
+  <property name="dir.doc.math" location="${dir.dist}/doc/math" />
+
+  <!-- Leave these alone -->
+  <property name="dir.tmp"          location="${dir.target}/tmp" />
+  <property name="dir.classes"      location="${dir.target}/classes" />
+  <property name="dir.classes.test" location="${dir.target}/testclasses" />
+  <property name="dir.test.report"  location="${dir.target}/junit" />
+
+  <property file="project.properties" />
+
+  <property name="source.version" value="1.5" />
+
+  <path id="classpath.compile">
+    <fileset dir="${dir.lib}" includes="${project.dependencies}" />
+  </path>
+
+  <path id="classpath.test">
+    <path refid="classpath.compile" />
+    <pathelement location="${dir.classes}" />
+    <pathelement location="${dir.src}" />      <!-- for bundled resources -->
+    <pathelement location="${basedir}" />      <!-- for META-INF/*.dtd    -->
+    <pathelement location="${dir.classes.test}" />
+    <pathelement location="${dir.src.test}" /> <!-- for test resources    -->
+    <fileset dir="${dir.lib.test}" includes="${project.dependencies.test}" />
+  </path>
+
+  <target name="clean">
+    <delete dir="${dir.target}" />
+  </target>
+
+  <target name="build" depends="-depend, -javac, -jar" />
+
+  <target name="-depend">
+    <depend srcdir="${dir.src}" destdir="${dir.classes}" closure="no" />
+  </target>
+
+  <target name="-javac">
+    <mkdir dir="${dir.target}" />
+    <mkdir dir="${dir.classes}" />
+    <javac destdir="${dir.classes}" debug="yes" source="${source.version}">
+      <src path="${dir.src}" />
+      <classpath refid="classpath.compile" />
+    </javac>
+  </target>
+
+  <target name="-rmic">
+    <rmic base="${dir.classes}">
+      <classpath refid="classpath.compile" />
+      <include name="gtf/mandel/server/BrokerServerImpl.class" />
+      <include name="gtf/mandel/server/ServerConnectionImpl.class" />
+    </rmic>
+  </target>
+
+  <target name="-jar">
+    <mkdir dir="${dir.dist}" />
+    <property name="dir.jar.tmp" location="${dir.tmp}/jar" />
+    <mkdir dir="${dir.jar.tmp}" />
+    <unzip dest="${dir.jar.tmp}">
+      <fileset dir="${dir.lib}" includes="${project.dependencies}" />
+    </unzip>
+    <jar jarfile="${dir.dist}/mandel.jar" manifest="META-INF/manifest.mf">
+      <metainf dir="META-INF">
+        <include name="mandelbrot-def.xml" />
+        <include name="*.dtd" />
+      </metainf>
+      <fileset dir="${dir.src}">
+        <include name="**/*" />
+        <exclude name="**/*.java" />
+      </fileset>
+      <fileset dir="${dir.classes}" />
+      <fileset dir="${dir.jar.tmp}" excludes="META-INF/*,**/*.html" />
+    </jar>
+    <jar jarfile="${dir.dist}/server.jar" manifest="META-INF/server.mf">
+      <metainf dir="META-INF">
+        <include name="mandelbrot-def.xml" />
+        <include name="mandelbrot-def*.dtd" />
+      </metainf>
+      <fileset dir="${dir.src}">
+        <include name="**/*.properties" />
+      </fileset>
+      <fileset dir="${dir.classes}">
+        <include name="gtf/**/*.class" />
+        <exclude name="gtf/mandel/client/**" />
+        <exclude name="**/*$$Test.class" />
+        <exclude name="**/*_UT.class" />
+      </fileset>
+      <fileset dir="${dir.classes}">
+        <include name="gtf/mandel/client/Defaults.class" />
+      </fileset>
+      <zipfileset src="${dir.lib}/gtf-math.jar" />
+      <zipfileset src="${dir.lib}/log4j-1.2.9.jar" excludes="META-INF/*,**/*.html"/>
+    </jar>
+  </target>
+
+  <target name="doc" depends="-copy-doc, -javadoc, tex"
+        description="Generate documentation bundle" />
+
+  <target name="-copy-doc">
+    <copy todir="${dir.doc}">
+      <fileset dir="${dir.doc.src}" />
+    </copy>
+  </target>
+
+  <target name="-javadoc" description="Generate Javadoc API">
+    <mkdir dir="${dir.doc.api}" />
+    <javadoc packagenames="gtf.*"
+        sourcepath="${dir.src}"
+        destdir="${dir.doc.api}"
+        package="yes"
+        source="${source.version}"
+        breakiterator="true"
+        failonerror="true">
+      <classpath refid="classpath.compile" />
+    </javadoc>
+  </target>
+
+  <target name="tex" description="Process TeX files into PDF">
+    <!-- clean first to remove old references -->
+    <delete dir="${dir.doc.math}" />
+    <mkdir dir="${dir.doc.math}" />
+    <!-- need to run LaTeX twice to resolve references -->
+    <antcall target="-latex" />
+    <antcall target="-latex" />
+    <apply executable="dvipdf" dir="${dir.doc.math}">
+      <fileset dir="${dir.doc.math}" includes="*.dvi" />
+    </apply> 
+  </target>
+
+  <target name="-latex" description="run LaTeX one time">
+    <apply executable="latex">
+      <arg line="-output-directory=${dir.doc.math}" />
+      <srcfile/>
+      <fileset dir="doc" includes="*.tex" />
+    </apply>
+  </target>
+
+  <target name="run" description="Run from Ant">
+    <java jar="${dir.dist}/mandel.jar" fork="true" />
+  </target>
+
+  <target name="-compiletests" depends="-depend, -javac">
+    <mkdir dir="${dir.classes.test}" />
+    <javac srcdir="${dir.src.test}" destdir="${dir.classes.test}"
+           debug="yes" source="${source.version}">
+      <classpath refid="classpath.test" />
+    </javac>
+  </target>
+
+  <target name="test" depends="-compiletests">
+    <property name="dir.test.tmp" location="${dir.tmp}/junit" />
+    <mkdir dir="${dir.test.tmp}" />
+    <junit>
+      <classpath refid="classpath.test" />
+      <sysproperty key="mandel.test.dir.output" value="${dir.tmp}" />
+      <batchtest todir="${dir.test.tmp}">
+        <formatter type="xml" />
+        <fileset dir="${dir.classes.test}" includes="**/*Test.class" />
+      </batchtest>
+    </junit>
+    <mkdir dir="${dir.test.report}" />
+    <junitreport todir="${dir.test.tmp}">
+      <fileset dir="${dir.test.tmp}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${dir.test.report}" />
+    </junitreport>
+    <delete dir="${dir.test.tmp}" />
+  </target>
+
+</project>

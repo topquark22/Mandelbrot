@@ -1,0 +1,51 @@
+In progress:
+- actually make use of colour model from the Configuration
+- Actually make use of default regions from the formula context
+
+General:
+- Avoid calling any non-final or non-private methods in constructors
+	(see http://mindprod.com/gotchas.html#CONSTRUCTORINIT )
+- Duplicated code between client.Defaults and server.ServerDefaults.
+    Replace with a generalized property manager.
+- Better exception handling in FormulaFactory
+
+Client:
+- Implement main screen (***)
+- Menu bar
+  - bookmarks (TOP PRIORITY)
+  - help screen
+  - options
+  - "go to" (user sets region)
+- Auto-colour (normalized)
+- Flip vertical sign, to obey common mathematical convention for complex numbers
+- refactor MCanvas: move splash into separate class
+- Make Applet work (including Parameters, which are not read at all)
+- Set up something with class loaders to load stuff from the "ext"
+  directory. (class Mandelbrot)
+
+Server:
+- finalize() -> close() -> Naming.unbind()
+- start-server.sh
+- Allow limit to be changed efficiently (caching engine)
+- Fix thread display so that it accurately displays the number of threads. (blocking problem?)
+- Once threading is verified to be working, eliminate debug messages
+
+Docs:
+- comments in javadoc
+
+Architecture:
+- Get rid of formula names. Create a formulas.xml which maps formula classes to names
+  (same concept as servlets in web.xml) and allows arbitrary parameters to be set
+  by reflection. Can also put colour models in the plugin jar.
+
+- Maybe make the juliaValue a parameter in the FormulaContext? (could be slower)
+
+- Get rid of JuliaConnection. Should use the regular server connection. The JNDI
+  name can be set up by the caller.
+
+- Make pluggable formula jars. They must have a formulas.xml deployment descriptor
+  in the META-INF directory. Create the dtd. It should specify formula class,
+  formula name, and any arbitrary parameters to be set by reflection.
+
+- Implement menu bar including formula and colour model selectors
+  and plugin import.

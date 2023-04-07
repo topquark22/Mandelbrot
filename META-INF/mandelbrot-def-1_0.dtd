@@ -1,0 +1,63 @@
+<!ELEMENT mandelbrot-def (description?, author?, copyright?, formulas?, colour-models?)>
+
+<!-- name: Used to refer to this plugin -->
+<!-- builtin: (yes, no) Whether this is the builtin. Only one plugin can be the builtin. -->
+<!ATTLIST mandelbrot-def
+  name CDATA #REQUIRED
+  builtin CDATA #IMPLIED
+>
+
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT copyright (#PCDATA)>
+<!ELEMENT formulas (formula)*>
+
+<!-- default: The default formula. Only valid if this is the builtin plugin. -->
+<!ATTLIST formulas
+  default CDATA #IMPLIED
+>
+
+<!ELEMENT formula (formula-name, formula-classname, formula-displayname, initial-region, julia-initial-region?, formula-params?)>
+
+<!ELEMENT formula-name (#PCDATA)>
+<!ELEMENT formula-classname (#PCDATA)>
+<!ELEMENT formula-displayname (#PCDATA)>
+
+<!ELEMENT initial-region EMPTY>
+
+<!ATTLIST initial-region
+  x CDATA #REQUIRED
+  y CDATA #REQUIRED
+  span CDATA #REQUIRED
+>
+
+<!ELEMENT julia-initial-region EMPTY>
+
+<!ATTLIST julia-initial-region
+  x CDATA #REQUIRED
+  y CDATA #REQUIRED
+  span CDATA #REQUIRED
+>
+
+<!ELEMENT formula-params (formula-param)*>
+<!ELEMENT formula-param (formula-param-name, formula-param-value)>
+<!ELEMENT formula-param-name (#PCDATA)>
+<!ELEMENT formula-param-value (#PCDATA)>
+
+<!ELEMENT colour-models (colour-model)*>
+
+<!-- default: The default colour model. Only valid if this is the builtin plugin. -->
+<!ATTLIST colour-models
+  default CDATA #IMPLIED
+>
+
+<!ELEMENT colour-model (colour-model-name, colour-model-classname, colour-model-displayname, colour-model-params?)>
+
+<!ELEMENT colour-model-name (#PCDATA)>
+<!ELEMENT colour-model-classname (#PCDATA)>
+<!ELEMENT colour-model-displayname (#PCDATA)>
+
+<!ELEMENT colour-model-params (colour-model-param)*>
+<!ELEMENT colour-model-param (colour-model-param-name, colour-model-param-value)>
+<!ELEMENT colour-model-param-name (#PCDATA)>
+<!ELEMENT colour-model-param-value (#PCDATA)>

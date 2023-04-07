@@ -1,0 +1,19 @@
+<!ELEMENT bookmarks ((folder | bookmark)*)>
+<!ELEMENT folder ((folder | bookmark)*)>
+<!ATTLIST folder
+    title CDATA #REQUIRED
+>
+<!ELEMENT bookmark (name, description?, formula, (mandelbrot | julia), limit)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT formula (#PCDATA)>
+<!ELEMENT limit (#PCDATA)>
+<!ELEMENT mandelbrot (x, y, span)>
+<!ELEMENT x (#PCDATA)>
+<!ELEMENT y (#PCDATA)>
+<!ELEMENT span (#PCDATA)>
+<!ELEMENT julia (x, y, span)>
+<!ATTLIST julia
+        x CDATA #IMPLIED
+        y CDATA #IMPLIED
+>

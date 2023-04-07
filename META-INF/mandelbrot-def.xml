@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE mandelbrot-def PUBLIC
+  "-//Geoffrey Trueman Falk//DTD Mandelbrot Plugin 1.0//EN"
+  "http://gtf.cirp.org/DTD/mandelbrot-def-1_0.dtd">
+
+<mandelbrot-def builtin="yes" name="builtin">
+
+  <description>Mandelbrot application builtins</description>
+  <author>Geoffrey T. Falk</author>
+  <copyright>2004</copyright>
+
+  <formulas default="quadratic">
+    <formula>
+      <formula-name>quadratic</formula-name>
+      <formula-classname>gtf.mandel.formula.QuadraticFunction</formula-classname>
+      <formula-displayname>Classic Quadratic</formula-displayname>
+      <initial-region x="-2.0" y="-1.5" span="3.0"/>
+      <julia-initial-region x="-2.0" y="-2.0" span="4.0"/>
+    </formula>
+    <formula>
+      <formula-name>cubic</formula-name>
+      <formula-classname>gtf.mandel.formula.CubicFunction</formula-classname>
+      <formula-displayname>Classic Cubic</formula-displayname>
+      <initial-region x="-1.5" y="-1.5" span="3.0"/>
+      <julia-initial-region x="-1.5" y="-1.5" span="3.0"/>
+    </formula>
+    <formula>
+      <formula-name>quartic</formula-name>
+      <formula-classname>gtf.mandel.formula.QuarticFunction</formula-classname>
+      <formula-displayname>Classic Quartic</formula-displayname>
+      <initial-region x="-1.6" y="-1.5" span="3.0"/>
+      <julia-initial-region x="-1.5" y="-1.5" span="3.0"/>
+    </formula>
+    <formula>
+      <formula-name>quintic</formula-name>
+      <formula-classname>gtf.mandel.formula.QuinticFunction</formula-classname>
+      <formula-displayname>Classic Quintic</formula-displayname>
+      <initial-region x="-1.25" y="-1.25" span="2.5"/>
+      <julia-initial-region x="-1.25" y="-1.25" span="2.5"/>
+    </formula>
+    <formula>
+      <formula-name>sesqui</formula-name>
+      <formula-classname>gtf.mandel.formula.SesquiFunction</formula-classname>
+      <formula-displayname>Sesqui</formula-displayname>
+      <initial-region x="-1.83" y="-3.0" span="4.27"/>
+    </formula>
+    <formula>
+      <formula-name>bisesqui</formula-name>
+      <formula-classname>gtf.mandel.formula.BiSesquiFunction</formula-classname>
+      <formula-displayname>BiSesqui</formula-displayname>
+      <initial-region x="-1.25" y="-1.1" span="2.8"/>
+    </formula>
+    <formula>
+      <formula-name>flag</formula-name>
+      <formula-classname>gtf.mandel.formula.FlagFunction</formula-classname>
+      <formula-displayname>Flag</formula-displayname>
+      <initial-region x="-1.75" y="-1.6" span="3.2"/>
+    </formula>
+<!-- example of a formula with parameters -->
+<!--
+    <formula>
+      <formula-name>wacky</formula-name>
+      <formula-classname>guy.lobster.formula.WackyFormula</formula-classname>
+      <formula-displayname>Wacky</formula-displayname>
+      <initial-region x="-2.0" y="-1.5" span="3.0"/>
+      <formula-params>
+        <formula-param>
+          <formula-param-name>skew</formula-param-name>
+          <formula-param-value>3.14159</formula-param-value>
+        </formula-param>
+        <formula-param>
+          <formula-param-name>author</formula-param-name>
+          <formula-param-value>Guy Lobster</formula-param-value>
+        </formula-param>
+      </formula-params>
+    </formula>
+-->
+  </formulas>
+
+  <colour-models default="spectrum">
+
+    <colour-model>
+      <colour-model-name>spectrum</colour-model-name>
+      <colour-model-classname>gtf.mandel.client.colour.PolygonalColorModel</colour-model-classname>
+      <colour-model-displayname>Classic colour scheme</colour-model-displayname>
+      <colour-model-params>
+        <colour-model-param>
+          <colour-model-param-name>interiorColor</colour-model-param-name>
+          <colour-model-param-value>#000000</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>minIterationsColor</colour-model-param-name>
+          <colour-model-param-value>#000000</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>maxIterationsColor</colour-model-param-name>
+          <colour-model-param-value>#FFFFFF</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>vertices</colour-model-param-name>
+          <colour-model-param-value>
+              0.2  #FF0000
+              0.3  #689A00
+              0.4  #00FF00
+              0.6  #0000FF
+              0.8  #FF00FF
+          </colour-model-param-value>
+        </colour-model-param>
+      </colour-model-params>
+    </colour-model>
+
+    <colour-model>
+      <colour-model-name>greyscale</colour-model-name>
+      <colour-model-classname>gtf.mandel.client.colour.PolygonalColorModel</colour-model-classname>
+      <colour-model-displayname>Black &amp; white</colour-model-displayname>
+      <colour-model-params>
+        <colour-model-param>
+          <colour-model-param-name>interiorColor</colour-model-param-name>
+          <colour-model-param-value>#000000</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>minIterationsColor</colour-model-param-name>
+          <colour-model-param-value>#000000</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>maxIterationsColor</colour-model-param-name>
+          <colour-model-param-value>#FFFFFF</colour-model-param-value>
+        </colour-model-param>
+        <colour-model-param>
+          <colour-model-param-name>vertices</colour-model-param-name>
+          <colour-model-param-value></colour-model-param-value>
+        </colour-model-param>
+      </colour-model-params>
+    </colour-model>
+
+  </colour-models>
+
+</mandelbrot-def>

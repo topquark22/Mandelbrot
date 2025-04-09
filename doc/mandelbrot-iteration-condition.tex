@@ -19,46 +19,49 @@
 \newtheorem*{lemma}{Lemma}
 
 \begin{lemma}
-Let $f(z) = z^q + c$, where $z, c \in \mathbb C$, $q > 1$.
-If $|z| > \max(2^{1/(q-1)}, |c|)$, then
-$|f^n(z)| \rightarrow \infty$ as $n \rightarrow \infty$.
+Let \( f(z) = z^q + c \), where \( z, c \in \mathbb{C} \), \( q > 1 \).
+If \( |z| > \max\left(2^{1/(q-1)},\, |c|\right) \), then
+\( |f^n(z)| \rightarrow \infty \) as \( n \rightarrow \infty \).
 \end{lemma}
 
 \begin{proof}
-Define a function $$\varepsilon(x) = \min\left(x^{q-1} - 2, 1 - \frac{|c|}{x}\right)$$
-$\varepsilon$ is an increasing function of $x$, and $\varepsilon(|z|) > 0$.
+Define a function
+\[
+\varepsilon(x) = \min\left(x^{q-1} - 2,\ 1 - \frac{|c|}{x}\right)
+\]
+\( \varepsilon \) is an increasing function of \( x \), and \( \varepsilon(|z|) > 0 \).
 
-We show that there is a constant $k$ (independent of $n$) such that 
-$|f^n(z)| > |z| + n k$ for all $n \in \mathbb N$. In the case $n = 1$,
-
+We show that there is a constant \( k \) (independent of \( n \)) such that 
+\( |f^n(z)| > |z| + n k \) for all \( n \in \mathbb{N} \). In the case \( n = 1 \),
 \begin{equation} \label{eq:e1}
 \begin{aligned}
 |f(z)| &= \left| z^q + c \right| = |z| \left| z^{q-1} + \frac{c}{z} \right| \\
-&\geq |z| \left( |z|^{q-1} - {\left|\frac{c}{z}\right|}\right) \text{ by triangle inequality} \\
-&\geq |z| \left( \left(2 + \varepsilon(|z|) \right) - \left(1 - \varepsilon(|z|)\right)\right)
- \text{ by definition of $\varepsilon$} \\
+&\geq |z| \left( |z|^{q-1} - {\left|\frac{c}{z}\right|} \right) \text{ by triangle inequality} \\
+&\geq |z| \left( \left(2 + \varepsilon(|z|) \right) - \left(1 - \varepsilon(|z|)\right) \right)
+ \text{ by definition of \( \varepsilon \)} \\
 &= |z| \left(1 + 2 \varepsilon(|z|) \right) \\
 &= |z| + 2 |z| \varepsilon(|z|) \\
 &> |z| + 2^{1 + {1/(q-1)}} \varepsilon(|z|)
 \end{aligned}
 \end{equation}
 
-Let $k = 2^{1 + {1/(q-1)}} \varepsilon(|z|) > 0$, so $|f(z)| > |z| + k$.
+Let \( k = 2^{1 + {1/(q-1)}} \varepsilon(|z|) > 0 \), so \( |f(z)| > |z| + k \).
 
-For the next step, assume the inductive hypothesis $|f^n(z)| > |z| + n k$.
-Note $$|f^n(z)| > |z| > \max(2^{1/(q-1)}, |c|)$$.
-Applying \eqref{eq:e1}, this time to $|f^n(z)|$,
-
+For the next step, assume the inductive hypothesis \( |f^n(z)| > |z| + n k \).
+Note
+\[
+|f^n(z)| > |z| > \max\left(2^{1/(q-1)},\, |c|\right)
+\]
+Applying \eqref{eq:e1}, this time to \( |f^n(z)| \),
 \begin{equation} \label{eq:e2}
 \begin{aligned}
 \left|f^{n+1}(z)\right| 
-&> \left|f^n(z)\right| +  2^{1 + {1/(q-1)}} \varepsilon(\left|f^n(z)\right|) \\
-&> \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since $\varepsilon$ is increasing} \\
+&> \left|f^n(z)\right| +  2^{1 + {1/(q-1)}} \varepsilon\left( \left|f^n(z)\right| \right) \\
+&> \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) is increasing} \\
 &= \left|f^n(z)\right| + k \\
 &> |z| + (n+1)k \text{ by the inductive hypothesis.}
 \end{aligned}
 \end{equation}
 \end{proof}
-
 
 \end{document}

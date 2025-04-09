@@ -52,18 +52,15 @@ Let \( k = 2^{1 + {1/(q-1)}} \varepsilon(|z|) > 0 \), so \( |f(z)| > |z| + k \).
 \parskip 6pt
 
 For the next step, assume the inductive hypothesis \( |f^n(z)| > |z| + n k \).
-Note
-\[
-|f^n(z)| > |z| > \max\left(2^{1/(q-1)},\, |c|\right)
-\]
+
 Applying \eqref{eq:e1}, this time to \( |f^n(z)| \),
 \begin{equation} \label{eq:e2}
 \begin{aligned}
 \left|f^{n+1}(z)\right| 
 &> \left|f^n(z)\right| +  2^{1 + {1/(q-1)}} \varepsilon\left( \left|f^n(z)\right| \right) \\
-&\geq \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) is nondecreasing} \\
+&\geq \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) nondecreasing} \\
 &= \left|f^n(z)\right| + k \\
-&> |z| + (n+1)k \text{ by the inductive hypothesis.}
+&> |z| + (n+1)k \text{ by inductive hypothesis.}
 \end{aligned}
 \end{equation}
 \end{proof}

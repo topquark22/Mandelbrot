@@ -32,7 +32,7 @@ Define a function
 \[
 \varepsilon(x) = \min\left(x^{q-1} - 2,\ 1 - \frac{|c|}{x}\right)
 \]
-\( \varepsilon \) is a nondecreasing function of \( x \), and \( \varepsilon(|z|) > 0 \).
+\( \varepsilon \) is an increasing function of \( x \), and \( \varepsilon(|z|) > 0 \).
 We show that there is a constant \( k \) (independent of \( n \)) such that
 \( |f^n(z)| > |z| + n k \) for all \( n \in \mathbb{N} \). In the case \( n = 1 \),
 \begin{equation} \label{eq:e1}
@@ -58,7 +58,7 @@ Applying \eqref{eq:e1}, this time to \( |f^n(z)| \),
 \begin{aligned}
 \left|f^{n+1}(z)\right| 
 &> \left|f^n(z)\right| +  2^{1 + {1/(q-1)}} \varepsilon\left( \left|f^n(z)\right| \right) \\
-&\geq \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) nondecreasing} \\
+&> \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) increasing} \\
 &= \left|f^n(z)\right| + k \\
 &> |z| + (n+1)k \text{ by inductive hypothesis.}
 \end{aligned}

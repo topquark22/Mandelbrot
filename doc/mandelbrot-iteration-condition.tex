@@ -4,13 +4,12 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{bbold}
 \usepackage{parskip}
 
 \geometry{noheadfoot}
 \setlength{\topskip}{0mm}
 
-\date{2025-12-23}
+\date{2014-07-25}
 \author{Geoffrey T. Falk}
 \title{Mandelbrot/Julia Iteration Condition}
 
@@ -29,9 +28,9 @@ R := 2^{1/(q-1)} \quad \text{so that} \quad R^{q-1}=2.
 \]
 Then:
 \begin{enumerate}
-\item If \(|c|>R\), then the orbit escapes immediately (since \(z_1=c\) and \(|z_1|>R\)).
+\item If \(|c|>R\), then \(|z_n|\to\infty\).
 \item If \(|c|\le R\) and there exists \(n\) with \(|z_n|>R\), then \(|z_n|\to\infty\).
-Moreover, there exists \(M\ge R\) (depending only on \(q\)) such that whenever \(|z_n|\ge M\) we have
+Moreover, in this case there exists \(M\ge R\) (depending only on \(q\)) such that whenever \(|z_n|\ge M\) we have
 \[
 |z_{n+1}| \ge 2|z_n|.
 \]
@@ -45,7 +44,27 @@ x_{n+1} = |z_{n+1}| = |z_n^q + c| \ge |z_n|^q - |c| = x_n^q - |c|.
 \end{equation}
 
 \textbf{Case 1: \(|c|>R\).}
-Then \(z_1=c\), hence \(x_1=|c|>R\), so the orbit has already left the disk of radius \(R\). In particular it is not bounded.
+Here \(z_1=c\), so \(x_1=|c|>R\). Then
+\[
+x_2 = |c^q + c| \ge |c|^q - |c| = |c|\bigl(|c|^{q-1}-1\bigr) > |c| = x_1,
+\]
+since \(|c|^{q-1} > R^{q-1}=2\).
+Now assume inductively that \(x_n \ge |c|\) for some \(n\ge 1\). Then \eqref{eq:basic} implies
+\[
+x_{n+1} \ge x_n^q - |c| \ge x_n^q - x_n = x_n\bigl(x_n^{q-1}-1\bigr) > x_n,
+\]
+because \(x_n \ge |c|>R\) gives \(x_n^{q-1} > 2\).
+Thus \((x_n)\) is strictly increasing for all \(n\ge 1\).
+
+To conclude divergence, choose
+\[
+M_c := \max\{\,|c|,\ (2|c|)^{1/q}\,\}.
+\]
+Once \(x_n\ge M_c\), we have \(x_n^q \ge 2|c|\), hence \eqref{eq:basic} gives
+\[
+x_{n+1} \ge x_n^q - |c| \ge \frac{x_n^q}{2}.
+\]
+Iterating this inequality forces \(x_n\to\infty\), and therefore \(|z_n|=x_n\to\infty\) when \(|c|>R\).
 
 \medskip
 \noindent
@@ -76,6 +95,5 @@ x_{n+1} \ge x_n^q - R \ge 2x_n.
 Since \((x_n)\) is strictly increasing after it first exceeds \(R\), it must eventually exceed \(M\); let \(n_0\) be the first index with \(x_{n_0}\ge M\).
 Then \eqref{eq:doubling} implies \(x_{n_0+m}\ge 2^m x_{n_0}\to\infty\) as \(m\to\infty\), proving \(x_n\to\infty\) and hence \(|z_n|\to\infty\).
 \end{proof}
-
 
 \end{document}

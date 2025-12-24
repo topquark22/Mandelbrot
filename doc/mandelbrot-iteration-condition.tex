@@ -10,7 +10,7 @@
 \geometry{noheadfoot}
 \setlength{\topskip}{0mm}
 
-\date{2014-07-25}
+\date{2025-12-23}
 \author{Geoffrey T. Falk}
 \title{Mandelbrot/Julia Iteration Condition}
 
@@ -21,48 +21,61 @@
 
 \newtheorem*{theorem}{Theorem}
 
-\begin{theorem}
-Let \( f(z) = z^q + c \), where \( z, c \in \mathbb{C} \), \( q > 1 \).
-If \( |z| > \max\left(2^{1/(q-1)},\, |c|\right) \), then
-\( |f^n(z)| \rightarrow \infty \) as \( n \rightarrow \infty \).
+\begin{theorem}[Escape radius and eventual exponential growth]
+Let \(f(z)=z^q+c\) with \(q>1\), and define the orbit \(z_{n+1}=f(z_n)\) with \(z_0=0\).
+Set
+\[
+R := 2^{1/(q-1)} \quad \text{so that} \quad R^{q-1}=2.
+\]
+Then:
+\begin{enumerate}
+\item If \(|c|>R\), then the orbit escapes immediately (since \(z_1=c\) and \(|z_1|>R\)).
+\item If \(|c|\le R\) and there exists \(n\) with \(|z_n|>R\), then \(|z_n|\to\infty\).
+Moreover, there exists \(M\ge R\) (depending only on \(q\)) such that whenever \(|z_n|\ge M\) we have
+\[
+|z_{n+1}| \ge 2|z_n|.
+\]
+\end{enumerate}
 \end{theorem}
 
 \begin{proof}
-Define a function
+Write \(x_n := |z_n|\). The reverse triangle inequality gives, for all \(n\),
+\begin{equation}\label{eq:basic}
+x_{n+1} = |z_{n+1}| = |z_n^q + c| \ge |z_n|^q - |c| = x_n^q - |c|.
+\end{equation}
+
+\textbf{Case 1: \(|c|>R\).}
+Then \(z_1=c\), hence \(x_1=|c|>R\), so the orbit has already left the disk of radius \(R\). In particular it is not bounded.
+
+\medskip
+\noindent
+\textbf{Case 2: \(|c|\le R\).}
+Assume there exists \(n\) with \(x_n>R\). Then using \eqref{eq:basic} and \(|c|\le R\),
 \[
-\varepsilon(x) = \min\left(x^{q-1} - 2,\ 1 - \frac{|c|}{x}\right)
+x_{n+1} \ge x_n^q - R
+= x_n\!\left(x_n^{q-1}-\frac{R}{x_n}\right)
+> x_n(2-1)=x_n,
 \]
-\( \varepsilon \) is an increasing function of \( x \), and \( \varepsilon(|z|) > 0 \).
-We show that there is a constant \( k \) (independent of \( n \)) such that
-\( |f^n(z)| > |z| + n k \) for all \( n \in \mathbb{N} \). In the case \( n = 1 \),
-\begin{equation} \label{eq:e1}
-\begin{aligned}
-|f(z)| &= \left| z^q + c \right| = |z| \left| z^{q-1} + \frac{c}{z} \right| \\
-&\geq |z| \left( |z|^{q-1} - {\left|\frac{c}{z}\right|} \right) \text{ by triangle inequality} \\
-&\geq |z| \left( \left(2 + \varepsilon(|z|) \right) - \left(1 - \varepsilon(|z|)\right) \right)
- \text{ by definition of \( \varepsilon \)} \\
-&= |z| \left(1 + 2 \varepsilon(|z|) \right) \\
-&= |z| + 2 |z| \varepsilon(|z|) \\
-&> |z| + 2 \cdot 2^{{1/(q-1)}} \varepsilon(|z|) \text{ by our initial assumption about } |z| \\
-&= |z| + 2^{1 + {1/(q-1)}} \varepsilon(|z|).
-\end{aligned}
+because \(x_n^{q-1}>R^{q-1}=2\) and \(R/x_n<1\). Hence once the orbit crosses \(R\), the sequence \((x_n)\) is strictly increasing.
+
+Now choose \(M\ge R\) so that
+\[
+M^{q-1}\ge 4 \qquad\text{and}\qquad M^q \ge 2R.
+\]
+(For example, \(M:=\max\{4^{1/(q-1)},(2R)^{1/q}\}\) works.)
+Then for every \(x\ge M\), we have \(R \le x^q/2\), and therefore
+\[
+x^q - R \ge \frac{x^q}{2} \ge 2x,
+\]
+where the last inequality uses \(x^{q-1}\ge 4\). Applying this with \(x=x_n\) and using \eqref{eq:basic} with \(|c|\le R\) yields:
+whenever \(x_n\ge M\),
+\begin{equation}\label{eq:doubling}
+x_{n+1} \ge x_n^q - R \ge 2x_n.
 \end{equation}
 
-Let \( k = 2^{1 + {1/(q-1)}} \varepsilon(|z|) > 0 \), so \( |f(z)| > |z| + k \).
-\parskip 6pt
-
-For the next step, assume the inductive hypothesis \( |f^n(z)| > |z| + n k \).
-
-Applying \eqref{eq:e1}, this time to \( |f^n(z)| \),
-\begin{equation} \label{eq:e2}
-\begin{aligned}
-\left|f^{n+1}(z)\right| 
-&> \left|f^n(z)\right| +  2^{1 + {1/(q-1)}} \varepsilon\left( \left|f^n(z)\right| \right) \\
-&> \left|f^n(z)\right| + 2^{1 + {1/(q-1)}} \varepsilon(|z|) \text{ since \( \varepsilon \) increasing} \\
-&= \left|f^n(z)\right| + k \\
-&> |z| + (n+1)k \text{ by inductive hypothesis.}
-\end{aligned}
-\end{equation}
+Since \((x_n)\) is strictly increasing after it first exceeds \(R\), it must eventually exceed \(M\); let \(n_0\) be the first index with \(x_{n_0}\ge M\).
+Then \eqref{eq:doubling} implies \(x_{n_0+m}\ge 2^m x_{n_0}\to\infty\) as \(m\to\infty\), proving \(x_n\to\infty\) and hence \(|z_n|\to\infty\).
 \end{proof}
+
 
 \end{document}

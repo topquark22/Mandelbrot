@@ -11,6 +11,8 @@ fi
 
 source_file=mandelbrot-iteration-condition.tex
 
+# Run twice: the first pass writes cross-references to the .aux file;
+# the second pass reads them to resolve equation and other references.
 pdflatex -interaction=nonstopmode -halt-on-error -file-line-error "$source_file"
 pdflatex -interaction=nonstopmode -halt-on-error -file-line-error "$source_file"
 

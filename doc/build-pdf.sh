@@ -2,6 +2,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source_file="mandelbrot-iteration-condition.tex"
+
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 if ! command -v pdflatex >/dev/null 2>&1; then
@@ -9,7 +11,8 @@ if ! command -v pdflatex >/dev/null 2>&1; then
   exit 1
 fi
 
-source_file=mandelbrot-iteration-condition.tex
+# Remove any stale cross-reference information.
+rm -f -- "${source_file%.tex}.aux"
 
 # Run twice: the first pass writes cross-references to the .aux file;
 # the second pass reads them to resolve equation and other references.

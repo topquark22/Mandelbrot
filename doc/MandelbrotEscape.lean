@@ -7,8 +7,7 @@ This is a Lean 4/Mathlib transcription of the proof in
 `doc/mandelbrot-iteration-condition.tex`.
 
 The exponent q is real (not necessarily integral), and complex exponentiation
-uses Mathlib's principal branch. This file has NOT been compiled in the
-current environment; check it with `lake env lean MandelbrotEscape.lean`.
+uses Mathlib's principal branch.
 -/
 
 noncomputable section

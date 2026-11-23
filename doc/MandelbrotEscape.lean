@@ -1,3 +1,5 @@
+import Mathlib
+
 /-!
 # Mandelbrot/Julia escape criterion (Falk's epsilon proof)
 
@@ -8,8 +10,6 @@ The exponent q is real (not necessarily integral), and complex exponentiation
 uses Mathlib's principal branch. This file has NOT been compiled in the
 current environment; check it with `lake env lean MandelbrotEscape.lean`.
 -/
-
-import Mathlib
 
 noncomputable section
 
@@ -31,7 +31,7 @@ def orbit (c : ℂ) (q : ℝ) (z : ℂ) : ℕ → ℂ
 
 private theorem radius_pos (q : ℝ) : 0 < radius q := by
   unfold radius
-  positivity
+  exact Real.rpow_pos_of_pos (by norm_num : (0 : ℝ) < 2) _
 
 private theorem radius_pow (q : ℝ) (hq : 1 < q) :
     (radius q) ^ (q - 1) = 2 := by
@@ -141,7 +141,8 @@ theorem linear_growth (c : ℂ) (q : ℝ) (hq : 1 < q) (z : ℂ)
       have hnc : ‖c‖ < ‖orbit c q z n‖ := lt_of_lt_of_le hzc hzn
       have heps : epsilon c q ‖z‖ ≤ epsilon c q ‖orbit c q z n‖ :=
         epsilon_mono c q hq hzpos hzn
-      have hfact : 0 ≤ 2 * radius q := by positivity
+      have hfact : 0 ≤ 2 * radius q :=
+        (mul_pos (by norm_num : (0 : ℝ) < 2) (radius_pos q)).le
       have hle : k ≤ 2 * radius q * epsilon c q ‖orbit c q z n‖ := by
         dsimp [k]
         exact mul_le_mul_of_nonneg_left heps hfact

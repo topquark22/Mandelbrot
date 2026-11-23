@@ -78,18 +78,15 @@ private theorem one_step (c : ℂ) (q : ℝ) (hq : 1 < q)
   have hwpos : 0 < ‖w‖ := (radius_pos q).trans hr
   have hp : 2 < ‖w‖ ^ (q - 1) := pow_gt_two q hq hr
   have hepos : 0 < epsilon c q ‖w‖ := epsilon_pos c q ‖w‖ hwpos hp hc
-
   -- Reverse triangle inequality, followed by the norm identity for complex powers.
   have htriangle : ‖w‖ ^ q ≤ ‖w ^ (q : ℂ) + c‖ + ‖c‖ := by
     have h := norm_sub_le (w ^ (q : ℂ) + c) c
     simpa only [add_sub_cancel_right, Complex.norm_cpow_real] using h
-
   have hpow : ‖w‖ ^ q = ‖w‖ * ‖w‖ ^ (q - 1) := by
     calc
-      ‖w‖ ^ q = ‖w‖ ^ ((q - 1) + 1) := by congr 1 <;> ring
+      ‖w‖ ^ q = ‖w‖ ^ ((q - 1) + 1) := by congr 1; ring
       _ = ‖w‖ ^ (q - 1) * ‖w‖ ^ (1 : ℝ) := Real.rpow_add hwpos _ _
       _ = ‖w‖ * ‖w‖ ^ (q - 1) := by rw [Real.rpow_one]; ring
-
   have hfirst : epsilon c q ‖w‖ ≤ ‖w‖ ^ (q - 1) - 2 := by
     unfold epsilon
     exact min_le_left _ _
@@ -171,3 +168,5 @@ theorem escape_to_infinity (c : ℂ) (q : ℝ) (hq : 1 < q) (z : ℂ)
   exact le_trans hb (hbound n)
 
 end MandelbrotEscape
+
+#print axioms MandelbrotEscape.escape_to_infinity
